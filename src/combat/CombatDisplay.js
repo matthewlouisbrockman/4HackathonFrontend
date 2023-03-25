@@ -5,7 +5,6 @@ import styled from "@emotion/styled";
 export const CombatDisplay = () => {
   const {
     currentEnemy,
-    mode,
     setMode,
     setCurrentEnemy,
     setEnemies,
@@ -13,16 +12,32 @@ export const CombatDisplay = () => {
     setParty,
   } = useContext(StateContext);
 
+  const handleCapture = (enemy) => {
+    const newParty = [...party];
+    newParty.push(enemy);
+    setParty(newParty);
+    setEnemies((oldEnemies) => oldEnemies.filter((e) => e !== enemy));
+    setCurrentEnemy({});
+  };
+
   return (
     <CombatContainer>
-      <EnemyTeamContainer enemies={[currentEnemy]} />
+      <GroupDisplays>
+        {<PartyContainer party={party} />}
+        {currentEnemy?.name && (
+          <EnemyTeamContainer
+            enemies={[currentEnemy]}
+            captureEnemy={(enemy) => handleCapture(enemy)}
+          />
+        )}
+      </GroupDisplays>
       <RunAwayButton
         onClick={() => {
           setMode("explore");
           setCurrentEnemy({});
         }}
       >
-        Run Away
+        {currentEnemy?.name ? "Run Away" : "Return to Exploration"}
       </RunAwayButton>
     </CombatContainer>
   );
@@ -41,16 +56,31 @@ const RunAwayButton = styled.button`
   margin: 10px;
 `;
 
-const EnemyTeamContainer = ({ enemies }) => {
+const GroupDisplays = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+`;
+
+const EnemyTeamContainer = ({ enemies, captureEnemy }) => {
   return (
     <EnemyTeamDisplay>
+      <div>Enemy</div>
       {enemies.map((enemy) => {
         return (
           <EnemyDisplay>
             <div>Name: {enemy.name}</div>
             <div>Max Health: {enemy.maxHealth}</div>
             <div>Current Helath: {enemy.curentHealth || "0"}</div>
-            {!enemy.curentHealth && <div>Enemy is dead</div>}
+            {!enemy.curentHealth && (
+              <button
+                onClick={() => {
+                  captureEnemy(enemy);
+                }}
+              >
+                Capture
+              </button>
+            )}
           </EnemyDisplay>
         );
       })}
@@ -60,10 +90,50 @@ const EnemyTeamContainer = ({ enemies }) => {
 
 const EnemyTeamDisplay = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  gap: 10px;
 `;
 
 const EnemyDisplay = styled.div`
   display: flex;
   flex-direction: column;
+  box-shadow: 0 0 10px 0 rgba(255, 0, 0, 0.5);
+  padding: 20px;
+`;
+
+const PartyContainer = ({ party }) => {
+  return (
+    <PartyDisplay>
+      <div>Your Party</div>
+      {party.map((member) => {
+        return (
+          <PartyMemberDisplay>
+            <div>Name: {member.name}</div>
+            <div>Max Health: {member.maxHealth}</div>
+            <div>Current Helath: {member.curentHealth || "0"}</div>
+            {member.attacks.map((attack) => {
+              return (
+                <div>
+                  <div>Attack Name: {attack.name}</div>
+                </div>
+              );
+            })}
+          </PartyMemberDisplay>
+        );
+      })}
+    </PartyDisplay>
+  );
+};
+
+const PartyDisplay = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
+
+const PartyMemberDisplay = styled.div`
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 10px 0 rgba(0, 255, 0, 0.5);
+  padding: 20px;
 `;
