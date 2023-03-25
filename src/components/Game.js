@@ -10,9 +10,8 @@ import { setupGame } from "../apis/stateAPIs";
 import { CombatDisplay } from "../combat/CombatDisplay";
 
 export const Game = () => {
-  const { setHistory, setStateData, setEnemies } = useContext(StateContext);
-
-  const [mode, setMode] = useState("explore");
+  const { setHistory, setStateData, setEnemies, mode, setMode } =
+    useContext(StateContext);
 
   const initialize = async () => {
     const action = await setupGame();

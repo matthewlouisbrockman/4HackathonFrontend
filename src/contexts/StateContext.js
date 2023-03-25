@@ -10,6 +10,8 @@ export const StateProvider = ({ children }) => {
   const [world, setWorld] = useState({});
   const [possibleActions, setPossibleActions] = useState([]);
   const [party, setParty] = useState([]);
+  const [currentEnemy, setCurrentEnemy] = useState({});
+  const [mode, setMode] = useState("explore");
 
   return (
     <StateContext.Provider
@@ -28,6 +30,10 @@ export const StateProvider = ({ children }) => {
         setParty,
         enemies,
         setEnemies,
+        currentEnemy,
+        setCurrentEnemy,
+        mode,
+        setMode,
       }}
     >
       {children}

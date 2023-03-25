@@ -14,6 +14,9 @@ export const ImputBar = () => {
     setPossibleActions,
     enemies,
     setEnemies,
+    setCurrentEnemy,
+    mode,
+    setMode,
   } = useContext(StateContext);
 
   const handleSend = async (inputAction = "") => {
@@ -33,13 +36,18 @@ export const ImputBar = () => {
     }
   };
 
+  const attackEnemy = (enemy) => {
+    setCurrentEnemy(enemy);
+    setMode("combat");
+  };
+
   console.log("enemies: ", enemies);
 
   return (
     <BarContainer>
       <PossibleActionsRow>
         {enemies?.map((enemy, idx) => (
-          <EnemiesButton key={idx} enemy={enemy} handleSend={handleSend} />
+          <EnemiesButton key={idx} enemy={enemy} attackEnemy={attackEnemy} />
         ))}
       </PossibleActionsRow>
 
@@ -107,13 +115,13 @@ const PossibleActionButton = ({ action, handleSend }) => {
 
 const ActionButton = styled.button``;
 
-const EnemiesButton = ({ enemy, handleSend }) => {
+const EnemiesButton = ({ enemy, attackEnemy }) => {
   return (
     <ActionButton
       style={{
         backgroundColor: "red",
       }}
-      onClick={() => {}}
+      onClick={() => attackEnemy(enemy)}
     >
       {enemy.name}
     </ActionButton>
