@@ -7,6 +7,7 @@ export const StateProvider = ({ children }) => {
   const [stateData, setStateData] = useState({});
   const [team, setTeam] = useState({});
   const [world, setWorld] = useState({});
+  const [possibleActions, setPossibleActions] = useState([]);
 
   return (
     <StateContext.Provider
@@ -19,6 +20,8 @@ export const StateProvider = ({ children }) => {
         setTeam,
         world,
         setWorld,
+        possibleActions,
+        setPossibleActions,
       }}
     >
       {children}

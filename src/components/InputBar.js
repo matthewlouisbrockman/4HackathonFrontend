@@ -7,13 +7,19 @@ import { getActionFromInput } from "../apis/inputAPIs";
 export const ImputBar = () => {
   const [playerInput, setPlayerInput] = useState("");
 
-  const { setHistory, setStateData } = useContext(StateContext);
+  const { setHistory, setStateData, possibleActions, setPossibleActions } =
+    useContext(StateContext);
 
-  const handleSend = async () => {
-    setHistory((prev) => [...prev, { narrative: playerInput, type: "user" }]);
+  const handleSend = async (inputAction = "") => {
+    const currentAction = inputAction || playerInput;
+
+    if (!currentAction) return;
+
+    setHistory((prev) => [...prev, { narrative: currentAction, type: "user" }]);
 
     setPlayerInput("");
-    const action = await getActionFromInput({ playerInput });
+    setPossibleActions([]);
+    const action = await getActionFromInput({ playerInput: currentAction });
     if (action.status === "success") {
       setHistory((prev) => [...prev, { ...action?.results, type: "bot" }]);
       setStateData(action?.results?.state);
@@ -22,10 +28,18 @@ export const ImputBar = () => {
 
   return (
     <BarContainer>
+      <PossibleActionsRow>
+        {possibleActions?.map((possibleAction) => (
+          <PossibleActionButton
+            key={possibleAction}
+            action={possibleAction}
+            handleSend={handleSend}
+          />
+        ))}
+      </PossibleActionsRow>
       <InputTextArea
         value={playerInput}
         onChange={(e) => setPlayerInput(e.target.value)}
-        //on enter, send the message
         onKeyDown={(e) => {
           if (e.key === "Enter") {
             handleSend();
@@ -64,3 +78,16 @@ const InputButton = styled.button`
   margin-left: auto;
   margin-right: 10px;
 `;
+
+const PossibleActionsRow = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+const PossibleActionButton = ({ action, handleSend }) => {
+  return (
+    <ActionButton onClick={() => handleSend(action)}>{action}</ActionButton>
+  );
+};
+
+const ActionButton = styled.button``;
