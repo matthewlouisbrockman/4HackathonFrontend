@@ -15,7 +15,7 @@ export const CombatDisplay = () => {
 
   return (
     <CombatContainer>
-      <EnemyTeamContainer enemies={currentEnemy} />
+      <EnemyTeamContainer enemies={[currentEnemy]} />
       <RunAwayButton
         onClick={() => {
           setMode("explore");
@@ -42,10 +42,28 @@ const RunAwayButton = styled.button`
 `;
 
 const EnemyTeamContainer = ({ enemies }) => {
-  return <EnemyTeamDisplay>{JSON.stringify(enemies)}</EnemyTeamDisplay>;
+  return (
+    <EnemyTeamDisplay>
+      {enemies.map((enemy) => {
+        return (
+          <EnemyDisplay>
+            <div>Name: {enemy.name}</div>
+            <div>Max Health: {enemy.maxHealth}</div>
+            <div>Current Helath: {enemy.curentHealth || "0"}</div>
+            {!enemy.curentHealth && <div>Enemy is dead</div>}
+          </EnemyDisplay>
+        );
+      })}
+    </EnemyTeamDisplay>
+  );
 };
 
 const EnemyTeamDisplay = styled.div`
   display: flex;
   flex-direction: row;
+`;
+
+const EnemyDisplay = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
