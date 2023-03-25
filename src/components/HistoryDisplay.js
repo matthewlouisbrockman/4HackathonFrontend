@@ -17,7 +17,7 @@ export const HistoryDisplay = () => {
   return (
     <HistoryContainer ref={historyRef}>
       {history.map((message) => {
-        return <HistoryMessage>{JSON.stringify(message)}</HistoryMessage>;
+        return <HistoryMessage>{message.narrative}</HistoryMessage>;
       })}
     </HistoryContainer>
   );

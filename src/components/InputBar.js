@@ -10,12 +10,12 @@ export const ImputBar = () => {
   const { setHistory } = useContext(StateContext);
 
   const handleSend = async () => {
-    setHistory((prev) => [...prev, { text: playerInput, type: "user" }]);
+    setHistory((prev) => [...prev, { narrative: playerInput, type: "user" }]);
 
     setPlayerInput("");
     const action = await getActionFromInput({ playerInput });
     if (action.status === "success") {
-      setHistory((prev) => [...prev, { text: action, type: "bot" }]);
+      setHistory((prev) => [...prev, { ...action?.results, type: "bot" }]);
     }
   };
 
