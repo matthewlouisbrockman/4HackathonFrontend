@@ -13,6 +13,8 @@ export const StateProvider = ({ children }) => {
   const [mode, setMode] = useState("explore");
   const [gameId, setGameId] = useState("");
 
+  const [imageUrls, setImageUrls] = useState({});
+
   return (
     <StateContext.Provider
       value={{
@@ -34,6 +36,8 @@ export const StateProvider = ({ children }) => {
         setMode,
         gameId,
         setGameId,
+        imageUrls,
+        setImageUrls,
       }}
     >
       {children}
