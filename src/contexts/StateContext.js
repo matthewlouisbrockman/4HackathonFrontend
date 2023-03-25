@@ -11,6 +11,7 @@ export const StateProvider = ({ children }) => {
   const [party, setParty] = useState([]);
   const [currentEnemy, setCurrentEnemy] = useState({});
   const [mode, setMode] = useState("explore");
+  const [gameId, setGameId] = useState("");
 
   return (
     <StateContext.Provider
@@ -31,6 +32,8 @@ export const StateProvider = ({ children }) => {
         setCurrentEnemy,
         mode,
         setMode,
+        gameId,
+        setGameId,
       }}
     >
       {children}

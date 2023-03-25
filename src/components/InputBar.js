@@ -15,8 +15,8 @@ export const ImputBar = () => {
     enemies,
     setEnemies,
     setCurrentEnemy,
-    mode,
     setMode,
+    gameId,
   } = useContext(StateContext);
 
   const handleSend = async (inputAction = "") => {
@@ -28,7 +28,10 @@ export const ImputBar = () => {
 
     setPlayerInput("");
     setPossibleActions([]);
-    const action = await getActionFromInput({ playerInput: currentAction });
+    const action = await getActionFromInput({
+      playerInput: currentAction,
+      gameId,
+    });
     if (action.status === "success") {
       setHistory((prev) => [...prev, { ...action?.results, type: "bot" }]);
       setStateData(action?.results?.state);
@@ -40,8 +43,6 @@ export const ImputBar = () => {
     setCurrentEnemy(enemy);
     setMode("combat");
   };
-
-  console.log("enemies: ", enemies);
 
   return (
     <BarContainer>

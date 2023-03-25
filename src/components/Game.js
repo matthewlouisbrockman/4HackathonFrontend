@@ -10,7 +10,7 @@ import { setupGame } from "../apis/stateAPIs";
 import { CombatDisplay } from "../combat/CombatDisplay";
 
 export const Game = () => {
-  const { setHistory, setStateData, setEnemies, mode, setMode } =
+  const { setHistory, setStateData, setEnemies, mode, setMode, setGameId } =
     useContext(StateContext);
 
   const initialize = async () => {
@@ -19,6 +19,7 @@ export const Game = () => {
       setHistory((prev) => [{ ...action?.results, type: "bot" }]);
       setStateData(action?.results?.state);
       setEnemies(action?.results?.monsters);
+      setGameId(action?.gameId);
     }
   };
 
