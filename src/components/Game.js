@@ -1,10 +1,12 @@
 import styled from "@emotion/styled";
 
 import { ImputBar } from "./InputBar";
+import { HistoryDisplay } from "./HistoryDisplay";
 
 export const Game = () => {
   return (
     <GameContainer>
+      <HistoryDisplay />
       <ImputBar />
     </GameContainer>
   );
