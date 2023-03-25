@@ -5,14 +5,15 @@ import styled from "@emotion/styled";
 import { getActionFromInput } from "../apis/inputAPIs";
 
 export const ImputBar = () => {
-  const [input, setInput] = useState("");
+  const [playerInput, setPlayerInput] = useState("");
 
   const { setHistory } = useContext(StateContext);
 
   const handleSend = async () => {
-    setHistory((prev) => [...prev, { text: input, type: "user" }]);
-    setInput("");
-    const action = await getActionFromInput({ input });
+    setHistory((prev) => [...prev, { text: playerInput, type: "user" }]);
+
+    setPlayerInput("");
+    const action = await getActionFromInput({ playerInput });
     if (action.status === "success") {
       setHistory((prev) => [...prev, { text: action, type: "bot" }]);
     }
@@ -21,8 +22,8 @@ export const ImputBar = () => {
   return (
     <BarContainer>
       <InputTextArea
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
+        value={playerInput}
+        onChange={(e) => setPlayerInput(e.target.value)}
         //on enter, send the message
         onKeyDown={(e) => {
           if (e.key === "Enter") {
