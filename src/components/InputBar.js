@@ -1,14 +1,39 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { StateContext } from "../contexts/StateContext";
 
 import styled from "@emotion/styled";
 
 export const ImputBar = () => {
   const [input, setInput] = useState("");
 
+  const { setHistory } = useContext(StateContext);
+
+  const handleSend = () => {
+    setHistory((prev) => [...prev, { text: input, type: "user" }]);
+    setInput("");
+  };
+
   return (
     <BarContainer>
-      <InputTextArea value={input} onChange={(e) => setInput(e.target.value)} />
-      <InputButton>Send</InputButton>
+      <InputTextArea
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+        //on enter, send the message
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            handleSend();
+            e.stopPropagation();
+            e.preventDefault();
+          }
+        }}
+      />
+      <InputButton
+        onClick={() => {
+          handleSend();
+        }}
+      >
+        Send
+      </InputButton>
     </BarContainer>
   );
 };

@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useContext } from "react";
+import { StateContext } from "../contexts/StateContext";
 
 import styled from "@emotion/styled";
 
 export const HistoryDisplay = () => {
-  const [history, setHistory] = useState([]);
+  const { history } = useContext(StateContext);
 
   return (
     <HistoryContainer>
