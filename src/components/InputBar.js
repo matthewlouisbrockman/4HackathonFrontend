@@ -7,7 +7,7 @@ import { getActionFromInput } from "../apis/inputAPIs";
 export const ImputBar = () => {
   const [playerInput, setPlayerInput] = useState("");
 
-  const { setHistory } = useContext(StateContext);
+  const { setHistory, setStateData } = useContext(StateContext);
 
   const handleSend = async () => {
     setHistory((prev) => [...prev, { narrative: playerInput, type: "user" }]);
@@ -16,6 +16,7 @@ export const ImputBar = () => {
     const action = await getActionFromInput({ playerInput });
     if (action.status === "success") {
       setHistory((prev) => [...prev, { ...action?.results, type: "bot" }]);
+      setStateData(action?.results?.state);
     }
   };
 
