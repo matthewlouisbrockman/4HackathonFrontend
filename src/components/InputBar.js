@@ -2,15 +2,20 @@ import { useState, useContext } from "react";
 import { StateContext } from "../contexts/StateContext";
 
 import styled from "@emotion/styled";
+import { getActionFromInput } from "../apis/inputAPIs";
 
 export const ImputBar = () => {
   const [input, setInput] = useState("");
 
   const { setHistory } = useContext(StateContext);
 
-  const handleSend = () => {
+  const handleSend = async () => {
     setHistory((prev) => [...prev, { text: input, type: "user" }]);
     setInput("");
+    const action = await getActionFromInput({ input });
+    if (action.status === "success") {
+      setHistory((prev) => [...prev, { text: action, type: "bot" }]);
+    }
   };
 
   return (
