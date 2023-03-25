@@ -5,7 +5,6 @@ import { ImputBar } from "./InputBar";
 export const Game = () => {
   return (
     <GameContainer>
-      Game
       <ImputBar />
     </GameContainer>
   );
