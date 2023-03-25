@@ -7,8 +7,14 @@ import { getActionFromInput } from "../apis/inputAPIs";
 export const ImputBar = () => {
   const [playerInput, setPlayerInput] = useState("");
 
-  const { setHistory, setStateData, possibleActions, setPossibleActions } =
-    useContext(StateContext);
+  const {
+    setHistory,
+    setStateData,
+    possibleActions,
+    setPossibleActions,
+    enemies,
+    setEnemies,
+  } = useContext(StateContext);
 
   const handleSend = async (inputAction = "") => {
     const currentAction = inputAction || playerInput;
@@ -23,11 +29,20 @@ export const ImputBar = () => {
     if (action.status === "success") {
       setHistory((prev) => [...prev, { ...action?.results, type: "bot" }]);
       setStateData(action?.results?.state);
+      setEnemies(action?.results?.monsters);
     }
   };
 
+  console.log("enemies: ", enemies);
+
   return (
     <BarContainer>
+      <PossibleActionsRow>
+        {enemies?.map((enemy, idx) => (
+          <EnemiesButton key={idx} enemy={enemy} handleSend={handleSend} />
+        ))}
+      </PossibleActionsRow>
+
       <PossibleActionsRow>
         {possibleActions?.map((possibleAction) => (
           <PossibleActionButton
@@ -91,3 +106,16 @@ const PossibleActionButton = ({ action, handleSend }) => {
 };
 
 const ActionButton = styled.button``;
+
+const EnemiesButton = ({ enemy, handleSend }) => {
+  return (
+    <ActionButton
+      style={{
+        backgroundColor: "red",
+      }}
+      onClick={() => {}}
+    >
+      {enemy.name}
+    </ActionButton>
+  );
+};

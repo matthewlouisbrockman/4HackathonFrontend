@@ -5,9 +5,11 @@ export const StateContext = createContext();
 export const StateProvider = ({ children }) => {
   const [history, setHistory] = useState([]);
   const [stateData, setStateData] = useState({});
-  const [team, setTeam] = useState({});
+  const [team, setTeam] = useState([]);
+  const [enemies, setEnemies] = useState([]);
   const [world, setWorld] = useState({});
   const [possibleActions, setPossibleActions] = useState([]);
+  const [party, setParty] = useState([]);
 
   return (
     <StateContext.Provider
@@ -22,6 +24,10 @@ export const StateProvider = ({ children }) => {
         setWorld,
         possibleActions,
         setPossibleActions,
+        party,
+        setParty,
+        enemies,
+        setEnemies,
       }}
     >
       {children}

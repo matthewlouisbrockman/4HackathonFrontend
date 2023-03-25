@@ -7,9 +7,10 @@ import { HistoryDisplay } from "./HistoryDisplay";
 import { StateDisplay } from "./StateDisplay";
 import { StateContext } from "../contexts/StateContext";
 import { setupGame } from "../apis/stateAPIs";
+import { CombatDisplay } from "../combat/CombatDisplay";
 
 export const Game = () => {
-  const { setHistory, setStateData } = useContext(StateContext);
+  const { setHistory, setStateData, setEnemies } = useContext(StateContext);
 
   const [mode, setMode] = useState("explore");
 
@@ -18,6 +19,7 @@ export const Game = () => {
     if (action.status === "success") {
       setHistory((prev) => [{ ...action?.results, type: "bot" }]);
       setStateData(action?.results?.state);
+      setEnemies(action?.results?.monsters);
     }
   };
 
@@ -34,6 +36,7 @@ export const Game = () => {
           <ImputBar />
         </>
       )}
+      {mode === "combat" && <CombatDisplay />}
     </GameContainer>
   );
 };
