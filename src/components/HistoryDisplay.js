@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { StateContext } from "../contexts/StateContext";
 
 import styled from "@emotion/styled";
@@ -6,11 +6,15 @@ import styled from "@emotion/styled";
 export const HistoryDisplay = () => {
   const { history } = useContext(StateContext);
   const historyRef = useRef(null);
+  const [lastMessageType, setLastMessageType] = useState(null);
 
   const historyLength = history.length;
   useEffect(() => {
     if (historyRef.current) {
       historyRef.current.scrollTop = historyRef.current.scrollHeight;
+    }
+    if (history.length > 0) {
+      setLastMessageType(history[history.length - 1].type);
     }
   }, [historyLength]);
 
@@ -27,6 +31,11 @@ export const HistoryDisplay = () => {
           </BotHistoryMessage>
         );
       })}
+      {lastMessageType === "user" && (
+        <EngineRunningMessage>
+          Waiting for LLM game engine...
+        </EngineRunningMessage>
+      )}
     </HistoryContainer>
   );
 };
@@ -47,13 +56,13 @@ const baseMessageStyles = `
   padding: 10px;
   margin: 10px;
   border-radius: 10px;
-  color: #000000;
   border: 1px solid #000000;
 `;
 
 const UserHistoryMessage = styled.div`
   ${baseMessageStyles}
   background-color: #e0f7fa;
+  color: #000000;
   width: auto;
   max-width: calc(100% - 20px);
   margin-left: auto;
@@ -62,6 +71,19 @@ const UserHistoryMessage = styled.div`
 const BotHistoryMessage = styled.div`
   ${baseMessageStyles}
   background-color: #f0f0f0;
+  color: #000000;
+  width: auto;
+  max-width: calc(100% - 20px);
+  margin-right: auto;
+`;
+
+const EngineRunningMessage = styled.div`
+  white-space: pre-wrap;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 10px;
+  font-style: italic;
+  color: #ff0000;
   width: auto;
   max-width: calc(100% - 20px);
   margin-right: auto;
