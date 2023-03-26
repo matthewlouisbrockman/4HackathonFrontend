@@ -119,6 +119,8 @@ const EnemyTeamDisplay = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  background-color: red;
+  padding: 10px;
 `;
 
 const EnemyDisplay = styled.div`
@@ -156,6 +158,7 @@ const PartyDisplay = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  background-color: green;
 `;
 
 const PartyMemberDisplay = styled.div`
