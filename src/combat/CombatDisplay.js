@@ -193,30 +193,64 @@ const PartyContainer = ({ party, handleAttack }) => {
   return (
     <PartyDisplay>
       <div>Your Party</div>
-      {party.map((member) => {
+      {party.map((member, idx) => {
         return (
-          <PartyMemberDisplay>
-            <div>Name: {member.name}</div>
-            <div>Max Health: {member.maxHealth}</div>
-            <div>Current Helath: {member.curentHealth || "0"}</div>
-            {member.attacks.map((attack) => {
-              return (
-                <div style={{ display: "flex", flexDirection: "row" }}>
-                  <div>Attack Name: {attack.name}</div>
-                  <button
-                    onClick={() => {
-                      handleAttack(party.indexOf(member), 0, attack.name);
-                    }}
-                  >
-                    Use Attack
-                  </button>
-                </div>
-              );
-            })}
-          </PartyMemberDisplay>
+          <FriendlyContainer
+            member={member}
+            key={idx}
+            handleAttack={handleAttack}
+            party={party}
+          />
         );
       })}
     </PartyDisplay>
+  );
+};
+
+const FriendlyContainer = ({ member, handleAttack, party }) => {
+  const [enemyUrl, setEnemyUrl] = useState("");
+  const getEnemyUrl = async () => {
+    const newURL = await getMonsterImage({ name: member.name });
+    if (newURL.status === "success") {
+      setEnemyUrl(newURL.url);
+    }
+  };
+  const cName = member.name;
+  useEffect(() => {
+    getEnemyUrl();
+  }, [cName]);
+
+  return (
+    <PartyMemberDisplay>
+      {enemyUrl && (
+        <img
+          src={enemyUrl}
+          alt={member.name}
+          style={{
+            width: "100px",
+            height: "100px",
+          }}
+        />
+      )}
+
+      <div>Name: {member.name}</div>
+      <div>Max Health: {member.maxHealth}</div>
+      <div>Current Helath: {member.curentHealth || "0"}</div>
+      {member.attacks.map((attack) => {
+        return (
+          <div style={{ display: "flex", flexDirection: "row" }}>
+            <div>Attack Name: {attack.name}</div>
+            <button
+              onClick={() => {
+                handleAttack(party.indexOf(member), 0, attack.name);
+              }}
+            >
+              Use Attack
+            </button>
+          </div>
+        );
+      })}
+    </PartyMemberDisplay>
   );
 };
 
