@@ -2,6 +2,8 @@ import { useContext } from "react";
 import { StateContext } from "../contexts/StateContext";
 import styled from "@emotion/styled";
 
+import { updateCombatAction } from "../apis/combatAPIs";
+
 export const CombatDisplay = () => {
   const {
     currentEnemy,
@@ -10,14 +12,39 @@ export const CombatDisplay = () => {
     setEnemies,
     party,
     setParty,
+    gameId,
+    setHistory,
+    setStateData,
   } = useContext(StateContext);
 
   const handleCapture = (enemy) => {
     const newParty = [...party];
     newParty.push(enemy);
     setParty(newParty);
+
     setEnemies((oldEnemies) => oldEnemies.filter((e) => e !== enemy));
     setCurrentEnemy({});
+    handleEnemyDefeat(enemy);
+    setHistory((prev) => [
+      ...prev,
+      { narrative: "You have captured: " + enemy.name, type: "bot" },
+    ]);
+  };
+
+  const handleEnemyDefeat = async (enemy) => {
+    const action = await updateCombatAction({
+      combatResult: {
+        narrative: "Your team has defeated an enemy!",
+        enemeyDefeated: enemy,
+        monsters: [],
+      },
+      gameId,
+    });
+    if (action.status === "success") {
+      setHistory((prev) => [...prev, { ...action?.results, type: "bot" }]);
+      setStateData(action?.results?.state);
+      setEnemies(action?.results?.monsters || []);
+    }
   };
 
   return (

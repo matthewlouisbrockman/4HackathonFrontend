@@ -15,6 +15,8 @@ export const StateProvider = ({ children }) => {
 
   const [imageUrls, setImageUrls] = useState({});
 
+  console.log("gameid", gameId);
+
   return (
     <StateContext.Provider
       value={{

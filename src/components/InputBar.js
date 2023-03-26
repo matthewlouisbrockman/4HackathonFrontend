@@ -35,7 +35,7 @@ export const ImputBar = () => {
     if (action.status === "success") {
       setHistory((prev) => [...prev, { ...action?.results, type: "bot" }]);
       setStateData(action?.results?.state);
-      setEnemies(action?.results?.monsters);
+      setEnemies(action?.results?.monsters || []);
     }
   };
 
