@@ -9,12 +9,15 @@ export const ImageBox = () => {
   const [image, setImage] = useState(null);
 
   const locationName = stateData.location;
-  console.log("location name");
+  console.log("stateData: ", stateData);
+  console.log("location name", locationName);
 
   const loadImageFromServer = async () => {
-    const image = await getLocationImage(locationName);
+    const imageRes = await getLocationImage(locationName);
     //this returns a base64 string
-    setImage(image);
+    if (imageRes.status === "success") {
+      setImage(imageRes.base64img);
+    }
   };
 
   useEffect(() => {
