@@ -3,7 +3,7 @@ const API_ENDPOINT =
   process.env.REACT_APP_API_ENDPOINT || "http://localhost:5000";
 
 export const getMonsterImage = async ({ name }) => {
-  const response = await fetch(`${API_ENDPOINT}/getMonsterImage`, {
+  const response = await fetch(`${API_ENDPOINT}/getCreatureImage`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

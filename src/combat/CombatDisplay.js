@@ -1,8 +1,9 @@
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import { StateContext } from "../contexts/StateContext";
 import styled from "@emotion/styled";
 
 import { updateCombatAction } from "../apis/combatAPIs";
+import { getMonsterImage } from "../apis/imagesAPIs";
 
 export const CombatDisplay = () => {
   const {
@@ -102,22 +103,9 @@ const EnemyTeamContainer = ({ enemies, captureEnemy }) => {
   return (
     <EnemyTeamDisplay>
       <div>Enemy</div>
-      {enemies.map((enemy) => {
+      {enemies.map((enemy, idx) => {
         return (
-          <EnemyDisplay>
-            <div>Name: {enemy.name}</div>
-            <div>Max Health: {enemy.maxHealth}</div>
-            <div>Current Helath: {enemy.curentHealth || "0"}</div>
-            {!enemy.curentHealth && (
-              <button
-                onClick={() => {
-                  captureEnemy(enemy);
-                }}
-              >
-                Capture
-              </button>
-            )}
-          </EnemyDisplay>
+          <EnemyContainer enemy={enemy} captureEnemy={captureEnemy} key={idx} />
         );
       })}
     </EnemyTeamDisplay>
@@ -131,6 +119,47 @@ const EnemyTeamDisplay = styled.div`
   background-color: red;
   padding: 10px;
 `;
+
+const EnemyContainer = ({ enemy, captureEnemy }) => {
+  const [enemyUrl, setEnemyUrl] = useState("");
+  const getEnemyUrl = async () => {
+    const newURL = await getMonsterImage({ name: enemy.name });
+    if (newURL.status === "success") {
+      setEnemyUrl(newURL.url);
+    }
+  };
+  const cName = enemy.name;
+  useEffect(() => {
+    getEnemyUrl();
+  }, [cName]);
+
+  return (
+    <EnemyDisplay>
+      {enemyUrl && (
+        <img
+          src={enemyUrl}
+          alt={enemy.name}
+          style={{
+            width: "100px",
+            height: "100px",
+          }}
+        />
+      )}
+      <div>Name: {enemy.name}</div>
+      <div>Max Health: {enemy.maxHealth}</div>
+      <div>Current Helath: {enemy.curentHealth || "0"}</div>
+      {!enemy.curentHealth && (
+        <button
+          onClick={() => {
+            captureEnemy(enemy);
+          }}
+        >
+          Capture
+        </button>
+      )}
+    </EnemyDisplay>
+  );
+};
 
 const EnemyDisplay = styled.div`
   display: flex;
