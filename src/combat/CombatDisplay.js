@@ -119,6 +119,8 @@ const EnemyTeamDisplay = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  background-color: red;
+  padding: 10px;
 `;
 
 const EnemyDisplay = styled.div`
@@ -140,8 +142,9 @@ const PartyContainer = ({ party }) => {
             <div>Current Helath: {member.curentHealth || "0"}</div>
             {member.attacks.map((attack) => {
               return (
-                <div>
+                <div style={{ display: "flex", flexDirection: "row" }}>
                   <div>Attack Name: {attack.name}</div>
+                  <button onClick={() => {}}>Use Attack</button>
                 </div>
               );
             })}
@@ -156,6 +159,7 @@ const PartyDisplay = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  background-color: green;
 `;
 
 const PartyMemberDisplay = styled.div`
