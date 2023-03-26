@@ -1,4 +1,5 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
+import { getLocationImage } from "../apis/imagesAPIs";
 
 export const StateContext = createContext();
 
@@ -12,11 +13,25 @@ export const StateProvider = ({ children }) => {
   const [currentEnemy, setCurrentEnemy] = useState({});
   const [mode, setMode] = useState("explore");
   const [gameId, setGameId] = useState("");
-
-  const [imageUrls, setImageUrls] = useState({});
+  const [backgroundImage, setBackgroundImage] = useState(null);
 
   console.log("gameid", gameId);
   console.log("context location name", stateData?.location);
+
+  const locationName = stateData?.location;
+  const loadImageFromServer = async () => {
+    const imageRes = await getLocationImage(locationName);
+    //this returns a base64 string
+    if (imageRes.status === "success") {
+      setBackgroundImage(imageRes.base64img);
+    }
+  };
+
+  useEffect(() => {
+    if (locationName) {
+      loadImageFromServer();
+    }
+  }, [locationName]);
 
   return (
     <StateContext.Provider
@@ -39,8 +54,7 @@ export const StateProvider = ({ children }) => {
         setMode,
         gameId,
         setGameId,
-        imageUrls,
-        setImageUrls,
+        backgroundImage,
       }}
     >
       {children}
