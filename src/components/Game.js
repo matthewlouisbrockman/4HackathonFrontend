@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useContext } from "react";
 
 import styled from "@emotion/styled";
 
@@ -8,7 +8,6 @@ import { StateDisplay } from "./StateDisplay";
 import { StateContext } from "../contexts/StateContext";
 import { setupGame } from "../apis/stateAPIs";
 import { CombatDisplay } from "../combat/CombatDisplay";
-import { ImageBox } from "./ImageBox";
 
 export const Game = () => {
   const {
