@@ -17,10 +17,14 @@ export const HistoryDisplay = () => {
   return (
     <HistoryContainer ref={historyRef}>
       {history.map((message) => {
-        return (
-          <HistoryMessage key={message.narrative}>
+        return message.type === "user" ? (
+          <UserHistoryMessage key={message.narrative}>
             {message.narrative}
-          </HistoryMessage>
+          </UserHistoryMessage>
+        ) : (
+          <BotHistoryMessage key={message.narrative}>
+            {message.narrative}
+          </BotHistoryMessage>
         );
       })}
     </HistoryContainer>
@@ -30,7 +34,6 @@ export const HistoryDisplay = () => {
 const HistoryContainer = styled.div`
   display: flex;
   flex-direction: column;
-  //give it a border with box-shadow
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
   width: 100%;
   height: 400px;
@@ -39,13 +42,27 @@ const HistoryContainer = styled.div`
   margin: auto auto 10px auto;
 `;
 
-const HistoryMessage = styled.div`
+const baseMessageStyles = `
   white-space: pre-wrap;
   padding: 10px;
   margin: 10px;
   border-radius: 10px;
-  background-color: #f0f0f0;
   color: #000000;
   border: 1px solid #000000;
-  width: calc(100% - 20px);
+`;
+
+const UserHistoryMessage = styled.div`
+  ${baseMessageStyles}
+  background-color: #e0f7fa;
+  width: auto;
+  max-width: calc(100% - 20px);
+  margin-left: auto;
+`;
+
+const BotHistoryMessage = styled.div`
+  ${baseMessageStyles}
+  background-color: #f0f0f0;
+  width: auto;
+  max-width: calc(100% - 20px);
+  margin-right: auto;
 `;
