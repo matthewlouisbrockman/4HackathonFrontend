@@ -57,10 +57,16 @@ export const CombatDisplay = () => {
     }
   };
 
+  const handleAttack = (partyIdx, enemyIdx, name) => {
+    //get the attack for the party member of idx
+    const attackData = party[partyIdx];
+    console.log("attackData");
+  };
+
   return (
     <CombatContainer>
       <GroupDisplays>
-        {<PartyContainer party={party} />}
+        {<PartyContainer party={party} handleAttack={handleAttack} />}
         {currentEnemy?.name && (
           <EnemyTeamContainer
             enemies={[currentEnemy]}
@@ -168,7 +174,7 @@ const EnemyDisplay = styled.div`
   padding: 20px;
 `;
 
-const PartyContainer = ({ party }) => {
+const PartyContainer = ({ party, handleAttack }) => {
   return (
     <PartyDisplay>
       <div>Your Party</div>
@@ -182,7 +188,13 @@ const PartyContainer = ({ party }) => {
               return (
                 <div style={{ display: "flex", flexDirection: "row" }}>
                   <div>Attack Name: {attack.name}</div>
-                  <button onClick={() => {}}>Use Attack</button>
+                  <button
+                    onClick={() => {
+                      handleAttack(party.indexOf(member), 0, attack.name);
+                    }}
+                  >
+                    Use Attack
+                  </button>
                 </div>
               );
             })}
