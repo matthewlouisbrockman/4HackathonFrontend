@@ -57,6 +57,14 @@ export const CombatDisplay = () => {
     }
   };
 
+  useEffect(() => {
+    //set the ccurrent health of all friendlies to max health
+    const newParty = party.map((char) => {
+      return { ...char, currentHealth: char.maxHealth };
+    });
+    setParty(newParty);
+  }, []);
+
   const handleAttack = (partyIdx, enemyIdx, name) => {
     //get the attack for the party member of idx
     const attackData = party[partyIdx]?.attacks?.filter(
@@ -65,7 +73,8 @@ export const CombatDisplay = () => {
     const dmg = attackData.damage + 2;
 
     const enemy = currentEnemy;
-    enemy.currentHealth = enemy.curentHealth - dmg;
+    enemy.currentHealth = enemy.currentHealth - dmg;
+
     setCurrentEnemy({ ...enemy });
     if (enemy.currentHealth && enemy.currentHealth > 0) {
       let friendlyChar = party[partyIdx];
@@ -168,8 +177,8 @@ const EnemyContainer = ({ enemy, captureEnemy }) => {
       )}
       <div>Name: {enemy.name}</div>
       <div>Max Health: {enemy.maxHealth}</div>
-      <div>Current Helath: {enemy.curentHealth || "0"}</div>
-      {!enemy.curentHealth && (
+      <div>Current Helath: {enemy.currentHealth || "0"}</div>
+      {(!enemy?.currentHealth || enemy.currentHealth < 0) && (
         <button
           onClick={() => {
             captureEnemy(enemy);
@@ -235,7 +244,7 @@ const FriendlyContainer = ({ member, handleAttack, party }) => {
 
       <div>Name: {member.name}</div>
       <div>Max Health: {member.maxHealth}</div>
-      <div>Current Helath: {member.curentHealth || "0"}</div>
+      <div>Current Helath: {member.currentHealth || "0"}</div>
       {member.attacks.map((attack) => {
         return (
           <div style={{ display: "flex", flexDirection: "row" }}>
