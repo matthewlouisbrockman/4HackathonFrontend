@@ -59,8 +59,18 @@ export const CombatDisplay = () => {
 
   const handleAttack = (partyIdx, enemyIdx, name) => {
     //get the attack for the party member of idx
-    const attackData = party[partyIdx];
-    console.log("attackData");
+    const attackData = party[partyIdx]?.attacks?.filter(
+      (x) => x.name === name
+    )[0];
+    const dmg = attackData.damage + 2;
+
+    const enemy = currentEnemy;
+    enemy.currentHealth = enemy.curentHealth - dmg;
+    setCurrentEnemy({ ...enemy });
+    if (enemy.currentHealth && enemy.currentHealth > 0) {
+      const friendlyChar = party[partyIdx];
+      const enemyAttacks = enemy.attacks[0];
+    }
   };
 
   return (
