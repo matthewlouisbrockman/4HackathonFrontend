@@ -142,8 +142,9 @@ const PartyContainer = ({ party }) => {
             <div>Current Helath: {member.curentHealth || "0"}</div>
             {member.attacks.map((attack) => {
               return (
-                <div>
+                <div style={{ display: "flex", flexDirection: "row" }}>
                   <div>Attack Name: {attack.name}</div>
+                  <button onClick={() => {}}>Use Attack</button>
                 </div>
               );
             })}
