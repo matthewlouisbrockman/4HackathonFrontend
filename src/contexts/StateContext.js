@@ -20,10 +20,10 @@ export const StateProvider = ({ children }) => {
 
   const locationName = stateData?.location;
   const loadImageFromServer = async () => {
-    const imageRes = await getLocationImage(locationName);
+    const imageRes = await getLocationImage({ name: locationName });
     //this returns a base64 string
     if (imageRes.status === "success") {
-      setBackgroundImage(imageRes.base64img);
+      setBackgroundImage(imageRes.url);
     }
   };
 
