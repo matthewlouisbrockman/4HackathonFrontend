@@ -8,6 +8,7 @@ import { StateDisplay } from "./StateDisplay";
 import { StateContext } from "../contexts/StateContext";
 import { setupGame } from "../apis/stateAPIs";
 import { CombatDisplay } from "../combat/CombatDisplay";
+import { ImageBox } from "./ImageBox";
 
 export const Game = () => {
   const { setHistory, setStateData, setEnemies, mode, setGameId } =
@@ -29,6 +30,7 @@ export const Game = () => {
 
   return (
     <GameContainer>
+      <ImageBox />
       {mode === "explore" && (
         <>
           <StateDisplay />
