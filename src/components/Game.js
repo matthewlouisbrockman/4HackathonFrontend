@@ -11,8 +11,14 @@ import { CombatDisplay } from "../combat/CombatDisplay";
 import { ImageBox } from "./ImageBox";
 
 export const Game = () => {
-  const { setHistory, setStateData, setEnemies, mode, setGameId } =
-    useContext(StateContext);
+  const {
+    setHistory,
+    setStateData,
+    setEnemies,
+    mode,
+    setGameId,
+    backgroundImage,
+  } = useContext(StateContext);
 
   const initialize = async () => {
     const action = await setupGame();
@@ -29,14 +35,30 @@ export const Game = () => {
   }, []);
 
   return (
-    <GameContainer>
-      <ImageBox />
+    <GameContainer
+      style={{
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
       {mode === "explore" && (
-        <>
+        <div
+          style={{
+            height: "100%",
+            width: "100%",
+            //image should be 10% transparent
+            background: "rgba(255, 255, 255, 0.5)",
+            display: "flex",
+            flexDirection: "column",
+            gap: "10px",
+          }}
+        >
           <StateDisplay />
           <HistoryDisplay />
           <ImputBar />
-        </>
+        </div>
       )}
       {mode === "combat" && <CombatDisplay />}
     </GameContainer>
