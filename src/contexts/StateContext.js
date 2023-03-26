@@ -15,9 +15,6 @@ export const StateProvider = ({ children }) => {
   const [gameId, setGameId] = useState("");
   const [backgroundImage, setBackgroundImage] = useState(null);
 
-  console.log("gameid", gameId);
-  console.log("context location name", stateData?.location);
-
   const locationName = stateData?.location;
   const loadImageFromServer = async () => {
     const imageRes = await getLocationImage({ name: locationName });

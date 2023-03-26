@@ -43,7 +43,14 @@ export const CombatDisplay = () => {
     if (action.status === "success") {
       setHistory((prev) => [...prev, { ...action?.results, type: "bot" }]);
       setStateData(action?.results?.state);
-      setEnemies(action?.results?.monsters || []);
+      let newMonsters = action?.results?.monsters || [];
+      // for each of the new monsters, set their currentHealth to maxHealth if their level > 0
+      newMonsters = newMonsters.map((monster) =>
+        monster.level > 0
+          ? { ...monster, currentHealth: monster.maxHealth }
+          : monster
+      );
+      setEnemies(newMonsters);
     }
   };
 
