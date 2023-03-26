@@ -68,8 +68,13 @@ export const CombatDisplay = () => {
     enemy.currentHealth = enemy.curentHealth - dmg;
     setCurrentEnemy({ ...enemy });
     if (enemy.currentHealth && enemy.currentHealth > 0) {
-      const friendlyChar = party[partyIdx];
+      let friendlyChar = party[partyIdx];
       const enemyAttacks = enemy.attacks[0];
+      const enemyDmg = enemyAttacks.damage;
+      friendlyChar.currentHealth = friendlyChar.currentHealth - enemyDmg;
+      let currentParty = party;
+      currentParty[partyIdx] = friendlyChar;
+      setParty([...currentParty]);
     }
   };
 
