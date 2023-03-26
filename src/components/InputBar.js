@@ -17,6 +17,7 @@ export const ImputBar = () => {
     setCurrentEnemy,
     setMode,
     gameId,
+    party,
   } = useContext(StateContext);
 
   const handleSend = async (inputAction = "") => {
@@ -51,34 +52,37 @@ export const ImputBar = () => {
           <EnemiesButton key={idx} enemy={enemy} attackEnemy={attackEnemy} />
         ))}
       </PossibleActionsRow>
-
-      <PossibleActionsRow>
-        {possibleActions?.map((possibleAction) => (
-          <PossibleActionButton
-            key={possibleAction}
-            action={possibleAction}
-            handleSend={handleSend}
+      {party?.length > 0 && (
+        <>
+          <PossibleActionsRow>
+            {possibleActions?.map((possibleAction) => (
+              <PossibleActionButton
+                key={possibleAction}
+                action={possibleAction}
+                handleSend={handleSend}
+              />
+            ))}
+          </PossibleActionsRow>
+          <InputTextArea
+            value={playerInput}
+            onChange={(e) => setPlayerInput(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleSend();
+                e.stopPropagation();
+                e.preventDefault();
+              }
+            }}
           />
-        ))}
-      </PossibleActionsRow>
-      <InputTextArea
-        value={playerInput}
-        onChange={(e) => setPlayerInput(e.target.value)}
-        onKeyDown={(e) => {
-          if (e.key === "Enter") {
-            handleSend();
-            e.stopPropagation();
-            e.preventDefault();
-          }
-        }}
-      />
-      <InputButton
-        onClick={() => {
-          handleSend();
-        }}
-      >
-        Send
-      </InputButton>
+          <InputButton
+            onClick={() => {
+              handleSend();
+            }}
+          >
+            Send
+          </InputButton>
+        </>
+      )}
     </BarContainer>
   );
 };
