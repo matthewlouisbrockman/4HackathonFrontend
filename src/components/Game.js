@@ -43,24 +43,26 @@ export const Game = () => {
         backgroundRepeat: "no-repeat",
       }}
     >
-      {mode === "explore" && (
-        <div
-          style={{
-            height: "100%",
-            width: "100%",
-            //image should be 10% transparent
-            background: "rgba(255, 255, 255, 0.5)",
-            display: "flex",
-            flexDirection: "column",
-            gap: "10px",
-          }}
-        >
-          <StateDisplay />
-          <HistoryDisplay />
-          <ImputBar />
-        </div>
-      )}
-      {mode === "combat" && <CombatDisplay />}
+      <div
+        style={{
+          height: "100%",
+          width: "100%",
+          //image should be 10% transparent
+          background: "rgba(255, 255, 255, 0.5)",
+          display: "flex",
+          flexDirection: "column",
+          gap: "10px",
+        }}
+      >
+        {mode === "explore" && (
+          <>
+            <StateDisplay />
+            <HistoryDisplay />
+            <ImputBar />
+          </>
+        )}
+        {mode === "combat" && <CombatDisplay />}
+      </div>
     </GameContainer>
   );
 };
