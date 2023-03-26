@@ -15,6 +15,7 @@ export const CombatDisplay = () => {
     gameId,
     setHistory,
     setStateData,
+    setPossibleActions,
   } = useContext(StateContext);
 
   const handleCapture = (enemy) => {
@@ -51,6 +52,7 @@ export const CombatDisplay = () => {
           : monster
       );
       setEnemies(newMonsters);
+      setPossibleActions(action?.results?.possibleActions);
     }
   };
 

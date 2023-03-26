@@ -37,6 +37,7 @@ export const ImputBar = () => {
       setHistory((prev) => [...prev, { ...action?.results, type: "bot" }]);
       setStateData(action?.results?.state);
       setEnemies(action?.results?.monsters || []);
+      setPossibleActions(action?.results?.possibleActions);
     }
   };
 
@@ -44,6 +45,8 @@ export const ImputBar = () => {
     setCurrentEnemy(enemy);
     setMode("combat");
   };
+
+  console.log("possibleActions", possibleActions);
 
   return (
     <BarContainer>
